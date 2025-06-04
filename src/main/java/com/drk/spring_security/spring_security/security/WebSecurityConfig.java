@@ -19,18 +19,18 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity(prePostEnabled = true)
-public class WebSecurityConfig {
 
+public class WebSecurityConfig {
     @Bean
     public UserDetailsService userDetailsService () {
         UserDetails user = User.withUsername("user")
                 .password(passwordEncoder().encode("password"))
-                .roles("USERS")
+                .roles("USER")
                 .build();
 
         UserDetails manager = User.withUsername("admin")
                 .password(passwordEncoder().encode("password"))
-                .roles("MANAGERS")
+                .roles("MANAGER")
                 .build();
 
         return new InMemoryUserDetailsManager(user,manager);
@@ -46,10 +46,40 @@ public class WebSecurityConfig {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
+    /* Validation v001
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests(auth -> auth.anyRequest().authenticated()
-        ).formLogin(Customizer.withDefaults()).httpBasic(Customizer.withDefaults());
+        http.authorizeHttpRequests(
+                auth
+                        -> auth.anyRequest().authenticated()
+        ).
+                formLogin(Customizer.withDefaults()).
+                httpBasic(Customizer.withDefaults());
+
+        return http.build();
+    }
+     */
+
+    /*v0002*/
+    @Bean
+    public SecurityFilterChain securityFilterChain (HttpSecurity http) throws Exception {
+        http
+                .authorizeHttpRequests(auth -> auth
+                        // Allow all users to access the home page
+                        .requestMatchers("/").permitAll()
+
+                        // Only users with role USERS or MANAGER can access /user
+                        .requestMatchers("/user").hasAnyRole("USER", "MANAGER")
+
+                        // Only users with role MANAGER can access /manager
+                        .requestMatchers("/manager").hasRole("MANAGER")
+
+                        // Any other request must be authenticated
+                        .anyRequest().authenticated()
+                )
+                .formLogin(Customizer.withDefaults())
+                .httpBasic(Customizer.withDefaults());
+
         return http.build();
     }
 }
