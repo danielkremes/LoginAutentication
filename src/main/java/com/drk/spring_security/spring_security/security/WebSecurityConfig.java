@@ -27,7 +27,13 @@ public class WebSecurityConfig {
                 .password(passwordEncoder().encode("password"))
                 .roles("USERS")
                 .build();
-        return new InMemoryUserDetailsManager(user);
+
+        UserDetails manager = User.withUsername("admin")
+                .password(passwordEncoder().encode("password"))
+                .roles("MANAGERS")
+                .build();
+
+        return new InMemoryUserDetailsManager(user,manager);
     }
 
     @Bean
