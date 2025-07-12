@@ -1,12 +1,16 @@
-# Spring Security
+# Sistema backend de login de usuários - Spring Security
+# [Link projeto]() 
 
-# Description
-	- Autenticatin and acess permissions in API with spring security and JWT
+# Descrição:
+- Temos dois utilizadores com nives de acesso distintos
+- usuário comum: apenas pode ter permissão de visualização de dados
+- usuário admin: tem total acesso ao sistema.
 
-# Prerequisites
-	- REQUIRED: Java 17 or superior
-    - REQUIRED: dependency(Spring Security)
-	- OPTIONAL: dependency(lombok)
+# Resultado
+- aprendi sobre autenticação e validação de acesso usando Spring Security.
+- aprendi sobre docker-compose para criar o banco de dados no caso desse projeto o PostgresSQL
 
-# Last Updated
-    - 6/4/2025
+# Pre requisitos
+	- necessario: Java 17 or superior
+    - necessario: Spring Security
+	- opcional:  Lombok

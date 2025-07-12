@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/login")
 public class UserController {
 
-
     @GetMapping("/home")
     public String home() {
         return "Welcome Login Authentication";
